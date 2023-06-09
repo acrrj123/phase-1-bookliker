@@ -13,6 +13,8 @@ document.addEventListener("DOMContentLoaded", function() {
     title.addEventListener('click', () => renderDetails(book))
   }
 
+  const likeBtn = document.createElement('button')
+
   function renderDetails(book) {
     //console.log(book)
     const panel = document.getElementById('show-panel')
@@ -39,7 +41,6 @@ document.addEventListener("DOMContentLoaded", function() {
       listOfUsers.appendChild(liUser)
       panel.appendChild(listOfUsers)
     })
-    const likeBtn = document.createElement('button')
     likeBtn.textContent = 'Like'
     //likeBtn.id = `${book.id}`
     panel.appendChild(likeBtn)
@@ -59,9 +60,12 @@ document.addEventListener("DOMContentLoaded", function() {
       body: JSON.stringify({users: usersArr})
     })
     .then(resp => resp.json())
-    .then(updatedBook => { 
-      renderDetails(updatedBook) 
-      console.log(updatedBook) 
+    .then(data => {
+      if (likeBtn.textContent === 'Like') {
+        renderDetails(data)
+        console.log(data)
+        likeBtn.textContent = 'Unlike'
+      }
     })
   }
 })
